@@ -1,37 +1,25 @@
-import os
-import pandas as pd
 import networkx as nx
 import matplotlib.pyplot as plt
 import seaborn as sns
+from utils import load_graph_from_dataset
 
-# Automatically find the 'dataset' folder in the root of the current directory
-root_dir = os.path.dirname(os.path.abspath(__file__))
-dataset_dir = os.path.join(root_dir, 'dataset')
+# Load the graph using the load_graph_from_dataset function
+G = load_graph_from_dataset()
 
-# Define the paths to the CSV files in the 'dataset' folder
-nodes_path = os.path.join(dataset_dir, 'got-nodes.csv')
-edges_path = os.path.join(dataset_dir, 'got-edges.csv')
-
-# Check if the paths exist
-if not os.path.exists(nodes_path) or not os.path.exists(edges_path):
-    print(f"Error: One or both of the files {nodes_path} and {edges_path} do not exist.")
-else:
-    nodes_df = pd.read_csv(nodes_path)
-    edges_df = pd.read_csv(edges_path)
-
-    # Create a NetworkX graph
-    G = nx.Graph()
-
-    # Add nodes with attributes (Id and Label)
-    for _, row in nodes_df.iterrows():
-        G.add_node(row['Id'], label=row['Label'])
-
-    # Add edges with weights
-    for _, row in edges_df.iterrows():
-        G.add_edge(row['Source'], row['Target'], weight=row['Weight'])
-
+# Check if the graph is loaded successfully
+if G:
     # Function to print the top 10 elements in a centrality measure
     def print_top_10(centrality, title):
+        """
+        Prints the top 10 nodes based on their centrality measure.
+
+        Args:
+            centrality (dict): A dictionary where keys are node identifiers and values are their centrality values.
+            title (str): The title describing the centrality measure (e.g., 'Degree Centrality').
+
+        Prints:
+            The top 10 nodes with their centrality values in descending order.
+        """
         sorted_centrality = sorted(centrality.items(), key=lambda x: x[1], reverse=True)[:10]
         print(f"\n{title}:")
         for i, (node, centrality_value) in enumerate(sorted_centrality, 1):
@@ -39,6 +27,16 @@ else:
 
     # Function to plot distribution for a centrality measure
     def plot_centrality_distribution(centrality, title):
+        """
+        Plots a histogram with a kernel density estimate (KDE) for the distribution of centrality values.
+
+        Args:
+            centrality (dict): A dictionary where keys are node identifiers and values are their centrality values.
+            title (str): The title of the plot.
+
+        Displays:
+            A histogram with KDE representing the distribution of centrality values.
+        """
         values = list(centrality.values())
         plt.figure(figsize=(10, 6))
         sns.histplot(values, kde=True, bins=30)
@@ -49,6 +47,18 @@ else:
 
     # Function to plot a heatmap-like graph visualization for a centrality measure
     def plot_heatmap_centrality(G, centrality, title, cmap='plasma'):
+        """
+        Plots a heatmap-like visualization of the graph nodes based on a centrality measure.
+
+        Args:
+            G (networkx.Graph): The graph object.
+            centrality (dict): A dictionary where keys are node identifiers and values are their centrality values.
+            title (str): The title of the plot.
+            cmap (str, optional): The colormap to be used for node colors. Defaults to 'plasma'.
+
+        Displays:
+            A graph visualization with nodes colored based on centrality values, with a colorbar indicating the centrality values.
+        """
         plt.figure(figsize=(12, 8))
         node_colors = list(centrality.values())
         pos = nx.spring_layout(G, seed=42)  # Layout for consistent positioning
@@ -62,7 +72,7 @@ else:
         sm.set_array([])
         plt.colorbar(sm, ax=plt.gca(), label="Centrality Value")  # Explicitly link to current Axes
 
-        plt.title(title)
+        plt.title(f"{title} Heatmap")
         plt.show()
 
     # Calculate and print centrality measures
@@ -71,6 +81,7 @@ else:
     betweenness_centrality = nx.betweenness_centrality(G)
     eigenvector_centrality = nx.eigenvector_centrality(G)
 
+    # Print top 10 and plot distributions and heatmaps for each centrality measure
     print_top_10(degree_centrality, "Degree Centrality")
     plot_centrality_distribution(degree_centrality, "Degree Centrality")
     plot_heatmap_centrality(G, degree_centrality, "Degree Centrality")
@@ -86,3 +97,6 @@ else:
     print_top_10(eigenvector_centrality, "Eigenvector Centrality")
     plot_centrality_distribution(eigenvector_centrality, "Eigenvector Centrality")
     plot_heatmap_centrality(G, eigenvector_centrality, "Eigenvector Centrality")
+
+else:
+    print("Error: Graph not loaded successfully.")
