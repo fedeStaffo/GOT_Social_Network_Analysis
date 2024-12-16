@@ -8,7 +8,7 @@
 - **Centrality Measures**
   - [✅] Top 10 plot
   - [✅] Distributions
-  - [ ] Heatmaps
+  - [✅] Heatmaps
 
 - **Structural Analysis**
   - [ ] Triads

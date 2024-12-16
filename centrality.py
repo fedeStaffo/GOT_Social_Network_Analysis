@@ -47,6 +47,24 @@ else:
         plt.ylabel("Frequency")
         plt.show()
 
+    # Function to plot a heatmap-like graph visualization for a centrality measure
+    def plot_heatmap_centrality(G, centrality, title, cmap='plasma'):
+        plt.figure(figsize=(12, 8))
+        node_colors = list(centrality.values())
+        pos = nx.spring_layout(G, seed=42)  # Layout for consistent positioning
+
+        # Draw the graph without labels
+        nx.draw_networkx_nodes(G, pos, node_color=node_colors, cmap=cmap, node_size=100, edgecolors="black")
+        nx.draw_networkx_edges(G, pos, edge_color="gray")
+
+        # Add colorbar explicitly to the current Axes
+        sm = plt.cm.ScalarMappable(cmap=cmap, norm=plt.Normalize(vmin=min(node_colors), vmax=max(node_colors)))
+        sm.set_array([])
+        plt.colorbar(sm, ax=plt.gca(), label="Centrality Value")  # Explicitly link to current Axes
+
+        plt.title(title)
+        plt.show()
+
     # Calculate and print centrality measures
     degree_centrality = nx.degree_centrality(G)
     closeness_centrality = nx.closeness_centrality(G)
@@ -55,12 +73,16 @@ else:
 
     print_top_10(degree_centrality, "Degree Centrality")
     plot_centrality_distribution(degree_centrality, "Degree Centrality")
+    plot_heatmap_centrality(G, degree_centrality, "Degree Centrality")
 
     print_top_10(closeness_centrality, "Closeness Centrality")
     plot_centrality_distribution(closeness_centrality, "Closeness Centrality")
+    plot_heatmap_centrality(G, closeness_centrality, "Closeness Centrality")
 
     print_top_10(betweenness_centrality, "Betweenness Centrality")
     plot_centrality_distribution(betweenness_centrality, "Betweenness Centrality")
+    plot_heatmap_centrality(G, betweenness_centrality, "Betweenness Centrality")
 
     print_top_10(eigenvector_centrality, "Eigenvector Centrality")
     plot_centrality_distribution(eigenvector_centrality, "Eigenvector Centrality")
+    plot_heatmap_centrality(G, eigenvector_centrality, "Eigenvector Centrality")
