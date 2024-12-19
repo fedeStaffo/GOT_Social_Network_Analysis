@@ -49,7 +49,7 @@ if __name__ == "__main__":
         G = load_graph_from_dataset()
 
         # Define the nodes of interest
-        nodes_of_interest = ['Tyrion', 'Jon']  # Replace with actual node names
+        nodes_of_interest = ['Tyrion', 'Jon','Daenerys']
 
         # Display the ego networks for Tyrion and Jon
         for node in nodes_of_interest:
