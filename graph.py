@@ -56,6 +56,35 @@ def plot_graph(G):
         plt.axis('off')  # Remove axis for better clarity
         plt.show()
 
+def plot_edge_weight_distribution(G):
+    """
+    Plots the distribution of edge weights in the graph and prints the top 10 weights.
+    """
+    edges_with_weights = [(u, v, data['weight']) for u, v, data in G.edges(data=True) if 'weight' in data]
+
+    if not edges_with_weights:
+        print("No edge weights found in the graph.")
+        return
+
+    # Sort edges by weight in descending order
+    edges_with_weights.sort(key=lambda x: x[2], reverse=True)
+
+    # Print the top 10 weights with source and target
+    print("Top 10 Edge Weights (Source-Target-Weight):")
+    for i, (u, v, weight) in enumerate(edges_with_weights[:10], 1):
+        print(f"{i}: {u}-{v}-{weight}")
+
+    # Extract just the weights for plotting
+    edge_weights = [weight for _, _, weight in edges_with_weights]
+
+    # Plot the edge weight distribution
+    plt.figure(figsize=(10, 6))
+    plt.hist(edge_weights, bins=30, color='skyblue', edgecolor='black', alpha=0.7)
+    plt.title("Edge Weight Distribution", fontsize=16)
+    plt.xlabel("Weight", fontsize=14)
+    plt.ylabel("Frequency", fontsize=14)
+    plt.grid(axis='y', alpha=0.75)
+    plt.show()
 
 if __name__ == "__main__":
     # Load the graph using the refactored function
@@ -67,3 +96,6 @@ if __name__ == "__main__":
 
         # Plot the graph using different layouts
         plot_graph(G)
+
+        # Plot the edge weight distribution
+        plot_edge_weight_distribution(G)
