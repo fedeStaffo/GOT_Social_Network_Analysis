@@ -21,9 +21,14 @@ if G:
             The top 10 nodes with their centrality values in descending order.
         """
         sorted_centrality = sorted(centrality.items(), key=lambda x: x[1], reverse=True)[:10]
-        print(f"\n{title}:")
+        print(f"\n{title} - Top 10 Best Nodes:")
         for i, (node, centrality_value) in enumerate(sorted_centrality, 1):
-            print(f"{i} {G.nodes[node]['label']}: {centrality_value}")
+            print(f"{i}. {G.nodes[node]['label']}: {centrality_value}")
+
+        sorted_centrality_worst = sorted(centrality.items(), key=lambda x: x[1])[:10]
+        print(f"\n{title} - Top 10 Worst Nodes:")
+        for i, (node, centrality_value) in enumerate(sorted_centrality_worst, 1):
+            print(f"{i}. {G.nodes[node]['label']}: {centrality_value}")
 
     # Function to plot distribution for a centrality measure
     def plot_centrality_distribution(centrality, title):
