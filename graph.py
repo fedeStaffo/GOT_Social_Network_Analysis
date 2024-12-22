@@ -16,10 +16,16 @@ def print_graph_metrics(G):
     avg_clustering_coef = nx.average_clustering(G)
     connectivity = nx.is_connected(G)
 
+     # Calculate weighted density
+    total_weight = sum(data['weight'] for _, _, data in G.edges(data=True) if 'weight' in data)
+    max_possible_weight = num_nodes * (num_nodes - 1) if num_nodes > 1 else 1
+    weighted_density = total_weight / max_possible_weight
+
     print("\nGeneral Metrics:")
     print(f"Number of Nodes: {num_nodes}")
     print(f"Number of Edges: {num_edges}")
     print(f"Density: {density}")
+    print(f"Weighted Density: {weighted_density}")
     print(f"Radius: {radius}")
     print(f"Diameter: {diameter}")
     print(f"Periphery: {periphery}")
