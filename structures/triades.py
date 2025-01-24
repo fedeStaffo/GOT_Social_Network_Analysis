@@ -28,7 +28,7 @@ def print_top_10_weighted_triads_with_contributions(G):
     sorted_triangles = sorted(triangles, key=lambda x: x[1], reverse=True)[:10]
     
 
-    print("\nTop 10 triads ordered by comprehensive triad Weight:")
+    print("\nTop 10 triads ordered by comprehensive triad weight:")
     for i, (nodes, weight_sum, weight1, weight2, weight3) in enumerate(sorted_triangles, 1):
         print(f"{i}. Nodes: {nodes}")
         print(f"   Comprehensive triad weight: {weight_sum}")

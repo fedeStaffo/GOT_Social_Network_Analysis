@@ -39,8 +39,8 @@ if __name__ == "__main__":
             closed_triads = triangles_per_node[node]
             open_triads_estimated += possible_triads - closed_triads
 
-        print(f"\nNumero stimato di triadi aperte: {open_triads_estimated}")
-        print(f"Numero stimato di triadi chiuse: {total_triangles}")
+        print(f"\n N. of open triads: {open_triads_estimated}")
+        print(f"Number of closed triads: {total_triangles}")
 
 
         
