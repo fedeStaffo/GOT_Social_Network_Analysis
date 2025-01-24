@@ -111,11 +111,13 @@ if __name__ == "__main__":
         G = load_graph_from_dataset()
 
         # Define the groups of interest: TODO
+        # Definisci i gruppi di interesse puntando su casate meno analizzate
         groups = {
-            'Family1': ['Tyrion', 'Jaime', 'Cersei'],
-            'Family2': ['Jon', 'Arya', 'Sansa'],
-            'Family3': ['Daenerys', 'Tyrion', 'Varys']
+            'House_Baratheon': ['Robert', 'Stannis', 'Renly'],
+            'House_Tyrell': ['Margaery', 'Loras', 'Mace'],
+            'House_Martell': ['Oberyn', 'Doran', 'Ellaria']
         }
+
 
         # Display group centralities
         display_group_centralities(G, groups)

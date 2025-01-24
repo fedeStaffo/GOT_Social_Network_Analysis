@@ -6,7 +6,6 @@ import matplotlib.pyplot as plt
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from utils import load_graph_from_dataset
 
-# Function to find and print the k-core details with automatic selection of k
 def print_k_core_details(G):
     """
     Automatically selects the k-core with the highest degree, calculates its comprehensive weight, 
@@ -38,7 +37,7 @@ def print_k_core_details(G):
         total_weight += edge_weight
         edge_weights.append((u, v, edge_weight))
 
-    # Print the details of the k-core subgraph
+    # Print 
     print(f"\nThe k-core (with degree {k}) has {len(k_core.nodes())} nodes and {len(k_core.edges())} edges.")
     print(f"Total weight of the k-core subgraph: {total_weight}")
     print("Edge Contributions:")
@@ -46,10 +45,9 @@ def print_k_core_details(G):
         print(f"   {edge[0]}-{edge[1]}: {edge[2]}")
     print()
 
-    return k_core, k  # Return the k-core and the value of k for plotting
+    return k_core, k  
 
 
-# Function to plot the k-core subgraph
 def plot_k_core(G, k_core, k):
     """
     Plots the k-core subgraph and displays edge weights.
@@ -59,29 +57,24 @@ def plot_k_core(G, k_core, k):
         k_core (networkx.Graph): The k-core subgraph to be plotted.
         k (int): The degree threshold for the k-core.
     """
-    # Draw the k-core subgraph
     plt.figure(figsize=(8, 6))
-    pos = nx.spring_layout(k_core)  # Layout for node positions
+    pos = nx.spring_layout(k_core)  
     nx.draw(k_core, pos, with_labels=True, node_size=3000, node_color='lightgreen', font_size=12, font_weight='bold')
 
     # Draw edge labels (edge weights)
-    # edge_labels = {(u, v): G[u][v]["weight"] for u, v in k_core.edges()}
-    # nx.draw_networkx_edge_labels(k_core, pos, edge_labels=edge_labels, font_size=10, font_color='red')
+    #edge_labels = {(u, v): G[u][v]["weight"] for u, v in k_core.edges()}
+    #nx.draw_networkx_edge_labels(k_core, pos, edge_labels=edge_labels, font_size=10, font_color='red')
 
-    plt.title(f"K-core Subgraph (Degree {k})")
+    plt.title(f"K-core subgraph (degree {k})")
     plt.show()
 
 
 if __name__ == "__main__":
     try:
-        # Load the graph
         G = load_graph_from_dataset()
-
-        # Print the details of the k-core subgraph with automatic k selection
         k_core, k = print_k_core_details(G)
 
         if k_core:
-            # Plot the k-core subgraph
             plot_k_core(G, k_core, k)
 
     except Exception as e:

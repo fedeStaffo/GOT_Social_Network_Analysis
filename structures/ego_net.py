@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from utils import load_graph_from_dataset
 
-# Function to generate and display the Ego Network of a specific node
+# Function to generate and display the ego network of a specific node
 def display_ego_network(G, node):
     """
     Creates and visualizes the ego network of a specific node.
@@ -28,30 +28,20 @@ def display_ego_network(G, node):
 
     # Plot the ego network
     plt.figure(figsize=(8, 6))
-    pos = nx.spring_layout(ego_net, seed=42)  # Layout for the nodes with fixed seed for consistency
-    
-    # Separate the central node and other nodes
+    pos = nx.spring_layout(ego_net, seed=42)  
     node_colors = ['lightcoral' if n == node else 'lightblue' for n in ego_net.nodes()]
-    
     nx.draw(ego_net, pos, with_labels=True, node_size=1000, node_color=node_colors, font_size=12, font_weight='bold', edge_color='gray', width=2)
-    
-    # Add a title with better formatting
-    plt.title(f"Ego Network of {node}", fontsize=16, fontweight='bold')
-    
-    # Show the plot
-    plt.axis('off')  # Turn off axis for a cleaner look
-    plt.tight_layout()  # Ensures everything fits well in the plot
+    plt.title(f"Ego network of {node}", fontsize=16, fontweight='bold')
+    plt.axis('off')  
+    plt.tight_layout()  
     plt.show()
 
 if __name__ == "__main__":
     try:
-        # Load the graph (replace this with your actual graph loading function)
         G = load_graph_from_dataset()
 
-        # Define the nodes of interest
-        nodes_of_interest = ['Tyrion', 'Jon','Daenerys']
+        nodes_of_interest = ['Jon','Daenerys']
 
-        # Display the ego networks for Tyrion and Jon
         for node in nodes_of_interest:
             display_ego_network(G, node)
 
